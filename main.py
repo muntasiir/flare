@@ -9,6 +9,7 @@ from wtforms import SelectField, StringField, PasswordField, BooleanField, Submi
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from flask_login import logout_user
 from flask_login import login_required
+from flask import Flask, jsonify
 import random
 
 # Create Flask app
