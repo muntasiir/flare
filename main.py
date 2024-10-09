@@ -15,7 +15,9 @@ import random
 # Create Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Flare' 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:muntasir1234@localhost/5.0db' 
+DATABASE_URL = os.environ.get('DATABASE_URL') or 'postgres://u8hv3bd319gae4:p61c0d2114ef276796e8cb287a673ad65aa59704e473c98259157ad4e3a2854ea@cf980tnnkgv1bp.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/deuvbs9eqelhe5'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize database
