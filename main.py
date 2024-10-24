@@ -1,4 +1,5 @@
 import os
+from flask.json import jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, session, redirect, url_for, flash, current_app
 from flask_bootstrap import Bootstrap
@@ -7,15 +8,20 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from wtforms import SelectField, StringField, PasswordField, BooleanField, SubmitField, validators
 from wtforms.validators import DataRequired, Length, Email, EqualTo
-from flask_login import logout_user
-from flask_login import login_required
-from flask import Flask, jsonify
+from email_validator import validate_email, EmailNotValidError  # Import email validation functions
 import random
+
 
 # Create Flask app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'Flare' 
-DATABASE_URL = os.environ.get('DATABASE_URL') or 'postgres://u8hv3bd319gae4:p61c0d2114ef276796e8cb287a673ad65aa59704e473c98259157ad4e3a2854ea@cf980tnnkgv1bp.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/deuvbs9eqelhe5'
+app.config['DEBUG'] = True  # Enable debug mode
+app.config['SECRET_KEY'] = 'Flare'
+
+# Set up the PostgreSQL database URI
+DATABASE_URL = os.environ.get('DATABASE_URL') or (
+    'postgresql+pg8000://u8hv3bd319gae4:p61c0d2114ef276796e8cb287a673ad65aa59704e473c98259157ad4e3a2854ea@'
+    'cf980tnnkgv1bp.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/deuvbs9eqelhe5'
+)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -26,6 +32,7 @@ db = SQLAlchemy(app)
 # Initialize login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
+
 login_manager.login_view = 'index'
 
 
@@ -232,7 +239,10 @@ def load_user(user_id):
 
 
 
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='0.0.0.0', port=80)  # Listen on all available network interfaces on port 80
+    port = int(os.environ.get('PORT', 5000))  # Get the port from the environment variable, default to 5000
+    app.run(host='0.0.0.0', port=port)
+# Listen on all available network interfaces on port 80
