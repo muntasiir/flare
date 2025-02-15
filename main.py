@@ -18,9 +18,8 @@ app.config['DEBUG'] = True  # Enable debug mode
 app.config['SECRET_KEY'] = 'Flare'
 
 # Set up the PostgreSQL database URI
-DATABASE_URL = os.environ.get('DATABASE_URL') or (
-    'postgresql+pg8000://u8hv3bd319gae4:p61c0d2114ef276796e8cb287a673ad65aa59704e473c98259157ad4e3a2854ea@'
-    'cf980tnnkgv1bp.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/deuvbs9eqelhe5')
+DATABASE_URL = os.environ.get('DATABASE_URL', 'postgres://u56oanshace0fm:pec181fb09badf540f2ae5bef278e6d7913fff863e60af5c65d4acdfaa90c5460@c5flugvup2318r.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d9ng7ima4bdul3?sslmode=require')
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
